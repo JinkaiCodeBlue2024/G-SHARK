@@ -19,3 +19,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JINKAI_LIBRA_2023 }}'
           projectId: jinkai-libra-2023
+          entrypoint: frontend
