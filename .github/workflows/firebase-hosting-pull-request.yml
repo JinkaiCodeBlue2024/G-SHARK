@@ -12,7 +12,10 @@ jobs:
         working-directory: frontend
     steps:
       - uses: actions/checkout@v4
-      - run: npm install -g pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
       - run: pnpm i --frozen-lockfile && pnpm build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
