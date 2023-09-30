@@ -2,6 +2,7 @@ from typing import Optional, List
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+import create_scenario
 
 
 app = FastAPI()
@@ -37,9 +38,8 @@ def root():
     return {"status": "ok"}
 
 
-@app.post("/generate-scenario")
-def generate_scenario(scenario_request: GenerateScenarioRequest):
-    # TODO: scenario_requestをOpenAIのAPIに接続するモジュールに渡してレスポンスを受け取る
+@app.get("/sample", response_model=GenerateScenarioResponse)
+def sample():
     # sample
     gpt_response = {
         "title": "ABC株式会社に対する標的型攻撃シナリオ",
@@ -72,5 +72,13 @@ def generate_scenario(scenario_request: GenerateScenarioRequest):
             },
         ],
     }
-    scenario_response = GenerateScenarioResponse(**gpt_response)
+    sample_response = GenerateScenarioResponse(**gpt_response)
+    return sample_response
+
+
+@app.post("/generate_scenario", response_model=GenerateScenarioResponse)
+def generate_scenario(scenario_request: GenerateScenarioRequest):
+    scenario_response = create_scenario.create_scenario(
+        scenario_request.model_dump_json()
+    )
     return scenario_response
