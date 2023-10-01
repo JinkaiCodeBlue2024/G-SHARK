@@ -1,11 +1,14 @@
 import { http } from "./common";
 
 export interface GenerateScenarioRequest {
-  scenario: string;
-  startingPoint: string;
-  targetCompanyName: string;
-  companyScale: string;
-  option?: string;
+  organizationName: string;
+  groupCompanyExists: boolean;
+  businessContent: string;
+  informationAssets: boolean;
+  socExists: boolean;
+  csirtExists: boolean;
+  attackOrigin: string;
+  option: string;
 }
 
 export interface GenerateScenarioResponse {
