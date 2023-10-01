@@ -1,12 +1,23 @@
 from typing import Optional, List
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import create_scenario
 
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = [
+        "http://localhost:5173",  # local
+        "https://jinkai-libra-2023.web.app", # production
+    ],
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
 
 class GenerateScenarioRequest(BaseModel):
     organizationName: str
