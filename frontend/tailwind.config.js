@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {},
+    fontSize: {
+      sm: '0.75rem',
+    }
   },
   plugins: [
     require("@tailwindcss/forms"),

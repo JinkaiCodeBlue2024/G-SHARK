@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { GenerateScenarioResponse } from "../apis/generate";
+import {
+  GenerateScenarioRequest,
+  GenerateScenarioResponse,
+  getSample,
+} from "../apis/generate";
 import { encodePlantUML64 } from "../utils/plantuml-text-encoder";
 
 function Result() {
@@ -9,44 +13,88 @@ function Result() {
   const [generateResponse, setGenerateResponse] = useState<
     GenerateScenarioResponse | undefined
   >();
+  const plantUML64 = useMemo(() => {
+    if (!generateResponse?.networkFigure) {
+      return;
+    }
+    return encodePlantUML64(generateResponse?.networkFigure);
+  }, [generateResponse?.networkFigure]);
 
   useEffect(() => {
     if (!location.state) {
       navigate("/");
       return;
     }
-    const { generateResponse } = location.state as {
-      generateResponse: GenerateScenarioResponse | null;
+    const { generateRequest } = location.state as {
+      generateRequest: GenerateScenarioRequest | null;
     };
-    if (!generateResponse) {
+    if (!generateRequest) {
       navigate("/");
       return;
     }
-    setGenerateResponse(generateResponse);
+    (async () => {
+      const resp = await getSample();
+      console.log(resp);
+      setGenerateResponse(resp);
+    })();
   }, [location, navigate]);
 
   if (!generateResponse) {
     return <div />; // / に遷移しているはず
   }
 
-  const plantUML64 = encodePlantUML64(generateResponse.networkFigure);
-
   return (
-    <div className="flex flex-col mt-[50px] mx-auto w-[60%] p-10 prose prose-sm">
-      <h3 className="h3">シナリオ</h3>
-      <p>{generateResponse.scenario}</p>
-      <h3>背景</h3>
-      <p>{generateResponse.background}</p>
-      <h3>ネットワーク図</h3>
-      <img
-        src={`http://www.plantuml.com/plantuml/svg/${plantUML64}`}
-      />
-      <h3>攻撃者の目的</h3>
-      <p>{generateResponse.attackerObjective}</p>
-      <h3>攻撃手順</h3>
-      <p>{generateResponse.attackerProcedure}</p>
-      <h3>演習の目的</h3>
-      <p>{generateResponse.exercisePurpose}</p>
+    <div className="flex flex-col mx-auto">
+      <h1 className="h3">{generateResponse.title}</h1>
+
+      <div className="pt-4">
+        <h2>背景</h2>
+        <p>{generateResponse.background}</p>
+      </div>
+
+      <div className="pt-4">
+        <h2 className="my-2">ネットワーク図</h2>
+        <img
+          src={`http://www.plantuml.com/plantuml/svg/${plantUML64}`}
+          className="w-1/2 mx-auto min-w-[260px]"
+        />
+      </div>
+
+      <div className="pt-4 w-[100%]">
+        <h2 className="my-2">シチュエーション</h2>
+        {generateResponse.situation.map((situation, i) => {
+          return (
+            <div key={i} className="my-4">
+              <div>
+                <h3>{situation.date}</h3>
+                <p className="p-1">{situation.content}</p>
+              </div>
+
+              <div
+                className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50"
+                role="alert"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 mx-2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4.5 12.75l6 6 9-13.5"
+                  />
+                </svg>
+                <span className="sr-only">Suggest</span>
+                <p>{situation.issue}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

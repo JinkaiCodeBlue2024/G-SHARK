@@ -9,16 +9,27 @@ export interface GenerateScenarioRequest {
 }
 
 export interface GenerateScenarioResponse {
-  scenario: string;
+  title: string;
   background: string;
   networkFigure: string; // this format is PlantUML
-  attackerObjective: string;
-  attackerProcedure: string;
-  exercisePurpose: string;
+  situation: Situation[];
 }
 
-export function generateScenario(
+export interface Situation {
+  situationNo: number;
+  date: string;
+  content: string;
+  issue: string;
+}
+
+export async function generateScenario(
   req: GenerateScenarioRequest,
 ): Promise<GenerateScenarioResponse> {
-  return http.post("/generate-scenario", req);
+  const resp = await http.post("/generate_scenario", req);
+  return resp.data;
+}
+
+export async function getSample(): Promise<GenerateScenarioResponse> {
+  const resp = await http.get("/sample");
+  return resp.data;
 }

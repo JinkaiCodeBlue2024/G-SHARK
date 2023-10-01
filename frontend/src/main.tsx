@@ -26,6 +26,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <span>ペネトレのシナリオ作成する君</span>
       </div>
     </nav>
-    <RouterProvider router={router} />
+    <div className="mt-[50px] mx-auto w-[60%] p-5 min-w-[350px]">
+      <RouterProvider router={router} />
+    </div>
   </React.StrictMode>,
 );

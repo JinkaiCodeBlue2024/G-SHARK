@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import {
-  GenerateScenarioRequest,
-  GenerateScenarioResponse,
-} from "../apis/generate";
+import { GenerateScenarioRequest } from "../apis/generate";
 
 const scenarioOptions = [
   "VPN 機器からの侵入",
@@ -22,35 +19,17 @@ function Form() {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {
+      onSubmit={handleSubmit(async (data) => {
         console.log(data);
-        const resp: GenerateScenarioResponse = {
-          scenario: data.scenario,
-          background:
-            `企業AはクライアントPC10台を持つ中規模の企業で、顧客情報などの機密情報を保持しています。
-          最近、企業AのVPN機器に対する不正なアクセスが検出され、認証情報の一部が窃取された可能性があることが判明しました。`,
-          networkFigure: `@startuml
-          nwdiag {
-            network dmz {
-                address = "210.x.x.x/24"
-          
-                web01 [address = "210.x.x.1"];
-                web02 [address = "210.x.x.2"];
-            }
-          }
-          @enduml`,
-          attackerObjective:
-            "攻撃者はVPN機器への侵入に成功し、認証情報を窃取しました。...",
-          attackerProcedure:
-            "攻撃者はVPN機器への侵入に成功し、認証情報を入手します。...",
-          exercisePurpose:
-            "クライアントPCのセキュリティ意識向上と攻撃からの防御方法の確立。...",
-        };
-        navigate("/result", {
-          state: { generateResponse: resp },
-        });
+        try {
+          navigate("/result", {
+            state: { generateRequest: data },
+          });
+        } catch (e) {
+          console.error(e);
+        }
       })}
-      className="flex flex-col mt-[50px] mx-auto w-[60%] p-10 items-center"
+      className="flex flex-col items-center"
     >
       <table className="w-[100%] border-spacing-2">
         <tbody>
