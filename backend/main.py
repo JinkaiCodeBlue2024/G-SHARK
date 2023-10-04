@@ -23,7 +23,7 @@ class GenerateScenarioRequest(BaseModel):
     organizationName: str
     groupCompanyExists: bool
     businessContent: str
-    infomationAssets: bool
+    informationAssets: bool
     socExists: bool
     csirtExists: bool
     attackOrigin: str
