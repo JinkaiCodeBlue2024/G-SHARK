@@ -40,6 +40,7 @@ function Form() {
           組織名
           <input
             className="w-[100%] rounded-lg"
+            required
             {...register("organizationName")}
           />
         </label>
@@ -50,6 +51,7 @@ function Form() {
           事業内容
           <input
             className="w-[100%] rounded-lg"
+            required
             {...register("businessContent")}
           />
         </label>
