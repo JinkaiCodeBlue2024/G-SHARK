@@ -3,6 +3,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Icon from "./assets/icon.png";
 import { loadingStateAtom } from "./atoms/loading";
 import FormPage from "./pages/form";
 import ResultPage from "./pages/result";
@@ -48,8 +49,9 @@ function App() {
       )}
 
       <nav className="flex bg-blue-500 p-2">
-        <div>
-          <span className="text-white">
+        <div className="flex">
+          <img src={Icon} className="w-12 mr-2" />
+          <span className="text-white text-xl my-auto">
             StellaWriter
           </span>
         </div>

@@ -8,6 +8,7 @@ export default {
     extend: {},
     fontSize: {
       sm: '0.75rem',
+      xl: '1.5rem',
     }
   },
   plugins: [
