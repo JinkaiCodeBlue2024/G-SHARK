@@ -74,7 +74,7 @@ function Result() {
 
       <div className="pt-4">
         <h2>背景</h2>
-        <p>{generateResponse.background}</p>
+        <p className="mt-4">{generateResponse.background}</p>
       </div>
 
       <div className="pt-4">
@@ -87,38 +87,43 @@ function Result() {
 
       <div className="pt-4 w-[100%]">
         <h2 className="my-2">シチュエーション</h2>
-        {generateResponse.situation.map((situation, i) => {
-          return (
-            <div key={i} className="my-4">
-              <div>
-                <h3>{situation.date}</h3>
-                <p className="p-1">{situation.content}</p>
-              </div>
+        <ol className="relative border-l ml-4">
+          {generateResponse.situation.map((situation, i) => {
+            return (
+              <li key={i} className="ml-4 mb-10">
+                <div className="absolute w-3 h-3 bg-blue-200 rounded-full mt-2 -left-1.5 border border-white" />
 
-              <div
-                className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50"
-                role="alert"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6 mx-2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M4.5 12.75l6 6 9-13.5"
-                  />
-                </svg>
-                <span className="sr-only">Suggest</span>
-                <p>{situation.issue}</p>
-              </div>
-            </div>
-          );
-        })}
+                <div>
+                  <h3 className="">{situation.date}</h3>
+                  <p className="p-1">{situation.content}</p>
+                </div>
+
+                <div className="bg-green-50 border-l-4 border-green-400 text-green-600 p-4">
+                  <div className="flex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+
+                    <p className="font-bold ml-1">課題</p>
+                  </div>
+
+                  <p className="">{situation.issue}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
       </div>
     </div>
   );
