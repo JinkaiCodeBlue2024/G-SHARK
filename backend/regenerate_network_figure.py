@@ -6,8 +6,6 @@ import xml.etree.ElementTree as et
 
 import requests
 
-from create_scenario import chat_with_gpt
-
 
 PLANTUML_BASE_URL = "http://www.plantuml.com/plantuml/svg/"
 
@@ -65,6 +63,8 @@ def generate_figure_code(figure_system_prompt: str, figure_user_prompt: str) -> 
     """
     Regenerate using ChatGPT if there are syntax errors and return the final PlantUML code.
     """
+    from create_scenario import chat_with_gpt
+
     MAX_NUM_OF_REGENERATE = 3
 
     figure_response = chat_with_gpt(figure_system_prompt, figure_user_prompt)
