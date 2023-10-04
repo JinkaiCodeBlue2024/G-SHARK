@@ -48,7 +48,12 @@ def check_plantuml_syntax(svg_code: str) -> Tuple[int, str]:
     text_elems = g_elems.findall(SVG_TEXT_TAG)
     text_list = [child.text for child in text_elems]
 
-    if "Syntax Error?" in text_list:
+    error_detection_string = "[From string (line"
+    error_flag = False
+    if error_detection_string in " ".join(text_list):
+        error_flag = True
+
+    if error_flag:
         status = -1
         error_message_part = " ".join(text_list[text_list.index("keyword)") + 2:-1])
         response = error_message_part.replace("\xa0", "\n")
