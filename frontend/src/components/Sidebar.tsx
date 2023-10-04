@@ -44,7 +44,7 @@ function Sidebar(props: {
     return <div />;
   }
   return (
-    <div className="h-[100%] bg-blue-500 absolute w-[15%] flex flex-col items-start">
+    <div className="h-[100%] bg-blue-500 absolute w-[15%] flex flex-col items-start min-w-[200px]">
       <button
         className="my-2 mx-4 py-2 px-2 text-white border text-sm flex  rounded-lg"
         onClick={() => {

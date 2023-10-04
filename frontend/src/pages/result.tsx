@@ -87,7 +87,7 @@ function Result() {
 
       <div className="pt-4 w-[100%]">
         <h2 className="my-2">シチュエーション</h2>
-        <ol className="relative border-l ml-4">
+        <ol className="relative border-l ml-4 -z-10">
           {generateResponse.situation.map((situation, i) => {
             return (
               <li key={i} className="ml-4 mb-10">
