@@ -13,6 +13,9 @@ PLANTUML_BASE_URL = "http://www.plantuml.com/plantuml/svg/"
 
 
 def deflate(code: str) -> str:
+    """
+    Compress for PlantUML API.
+    """
     puml_chars = string.digits + string.ascii_uppercase + string.ascii_lowercase + "-_"
     b64_str = string.ascii_uppercase + string.ascii_lowercase + string.digits + "+/"
     b64_to_puml = bytes.maketrans(b64_str.encode("utf-8"), puml_chars.encode("utf-8"))
@@ -25,12 +28,21 @@ def deflate(code: str) -> str:
 
 
 def get_svg(code: str) -> str:
+    """
+    Get an SVG image using PlantUML API.
+    """
     encoded = deflate(code)
     response = requests.get(PLANTUML_BASE_URL + encoded)
     return response.content
 
 
 def check_plantuml_syntax(svg_code: str) -> Tuple[int, str]:
+    """
+    Check the contents of the SVG file obtained from the PlantUML API and detect syntax errors.
+
+    :return 1(int): no syntax errors -> 0, syntax errors -> -1
+    :return 2(str): no syntax errors -> SVG, syntax errors -> error message
+    """
     root = et.fromstring(svg_code)
     SVG_G_TAG = "{http://www.w3.org/2000/svg}g"
     SVG_TEXT_TAG = "{http://www.w3.org/2000/svg}text"
@@ -40,8 +52,8 @@ def check_plantuml_syntax(svg_code: str) -> Tuple[int, str]:
 
     if "Syntax Error?" in text_list:
         status = -1
-        error_hint_part = " ".join(text_list[text_list.index("keyword)") + 2:-1])
-        response = error_hint_part.replace("\xa0", "\n")
+        error_message_part = " ".join(text_list[text_list.index("keyword)") + 2:-1])
+        response = error_message_part.replace("\xa0", "\n")
     else:
         status = 0
         response = svg_code
@@ -50,9 +62,13 @@ def check_plantuml_syntax(svg_code: str) -> Tuple[int, str]:
 
 
 def generate_figure_code(figure_system_prompt: str, figure_user_prompt: str) -> str:
+    """
+    Regenerate using ChatGPT if there are syntax errors and return the final PlantUML code.
+    """
     MAX_NUM_OF_REGENERATE = 3
 
     figure_response = chat_with_gpt(figure_system_prompt, figure_user_prompt)
+    print(f"{figure_response = }")
     plantuml_response = get_svg(figure_response)
 
     for i in range(MAX_NUM_OF_REGENERATE):
@@ -73,5 +89,6 @@ def generate_figure_code(figure_system_prompt: str, figure_user_prompt: str) -> 
         )
 
         figure_response = chat_with_gpt(figure_system_prompt, figure_user_prompt)
+        plantuml_response = get_svg(figure_response)
 
     return figure_response

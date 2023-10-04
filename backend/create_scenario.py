@@ -84,9 +84,11 @@ def chat_with_gpt(system_prompt: str, prompt: str) -> str:
 def create_scenario(input: str):
     scenario_user_prompt = create_prompt(input)
     scenario_response = chat_with_gpt(scenario_system_prompt, scenario_user_prompt)
+    print(f"{scenario_response = }")
     scenario = json.loads(scenario_response)
 
     figure_user_prompt = figure_base_prompt + "\n" + scenario_response
     figure_response = chat_with_gpt(figure_system_prompt, figure_user_prompt)
+    print(f"{figure_response = }")
     scenario["networkFigure"] = figure_response
     return scenario
