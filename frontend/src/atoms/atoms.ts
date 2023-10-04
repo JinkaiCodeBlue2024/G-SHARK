@@ -5,3 +5,6 @@ export const loadingStateAtom = atom<
 >({
   isLoading: false,
 });
+
+export const showDarkerOverlayAtom = atom(false);
+export const sidebarOpenAtom = atom(false);

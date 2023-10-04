@@ -1,6 +1,14 @@
+import { isAxiosError } from "axios";
+import { useSetAtom } from "jotai";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { GenerateScenarioRequest } from "../apis/generate";
+import { v4 as uuidv4 } from "uuid";
+import {
+  generateScenario,
+  GenerateScenarioRequest,
+} from "../apis/generate";
+import { loadingStateAtom } from "../atoms/atoms";
 
 // https://www.ipa.go.jp/security/10threats/10threats2023.html
 const attackOriginOptions = [
@@ -20,21 +28,57 @@ function Form() {
     GenerateScenarioRequest
   >();
   const navigate = useNavigate();
+  const setLoadingState = useSetAtom(loadingStateAtom);
+  const [errorMessage, setErrorMessage] = useState<
+    string | undefined
+  >();
 
   return (
     <form
       onSubmit={handleSubmit(async (data) => {
         console.log(data);
+        setLoadingState({ isLoading: true, message: "生成中..." });
         try {
-          navigate("/result", {
-            state: { generateRequest: data },
-          });
+          const resp = await generateScenario(data);
+          console.log(resp);
+          const id = uuidv4();
+          localStorage.setItem(id, JSON.stringify(resp));
+          navigate(`/r/${id}`);
         } catch (e) {
           console.error(e);
+          if (isAxiosError(e)) {
+            setErrorMessage(e.message);
+          }
+        } finally {
+          setLoadingState({ isLoading: false });
         }
       })}
       className="flex flex-col items-center"
     >
+      {errorMessage && (
+        <div>
+          <div
+            className="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
+            role="alert"
+          >
+            <svg
+              className="flex-shrink-0 inline w-4 h-4 mr-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span className="sr-only">Info</span>
+            <div>
+              <span className="font-medium">エラー</span>{" "}
+              {errorMessage}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="w-4/5 my-2">
         <label className="block mb-2 text-sm font-medium text-gray-900">
           組織名
