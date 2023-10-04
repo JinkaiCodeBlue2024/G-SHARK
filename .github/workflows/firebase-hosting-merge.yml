@@ -18,7 +18,7 @@ jobs:
         with:
           version: 8
           run_install: false
-      - run: pnpm i --frozen-lockfile && pnpm build
+      - run: pnpm i --frozen-lockfile && pnpm build --mode production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
