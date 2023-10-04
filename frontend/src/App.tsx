@@ -50,7 +50,7 @@ function App() {
       <nav className="flex bg-blue-500 p-2">
         <div>
           <span className="text-white">
-            ペネトレのシナリオ作成する君
+            StellaWriter
           </span>
         </div>
       </nav>
