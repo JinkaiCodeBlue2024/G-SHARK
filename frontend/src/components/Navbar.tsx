@@ -5,6 +5,8 @@ import {
   sidebarOpenAtom,
 } from "../atoms/atoms";
 
+const title = "G-SHARK";
+
 function Navbar() {
   const [showDarkerOverlay, setShowDarkerOverlay] = useAtom(
     showDarkerOverlayAtom,
@@ -38,7 +40,7 @@ function Navbar() {
 
         <img src={Icon} className="w-12 mx-2" />
         <span className="text-white text-xl my-auto">
-          StellaWriter
+          {title}
         </span>
       </div>
     </nav>
