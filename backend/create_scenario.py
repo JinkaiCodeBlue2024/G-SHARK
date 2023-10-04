@@ -1,6 +1,10 @@
 import os
-import openai
 import json
+
+import openai
+
+from regenerate_network_figure import generate_figure_code
+
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -88,7 +92,6 @@ def create_scenario(input: str):
     scenario = json.loads(scenario_response)
 
     figure_user_prompt = figure_base_prompt + "\n" + scenario_response
-    figure_response = chat_with_gpt(figure_system_prompt, figure_user_prompt)
-    print(f"{figure_response = }")
+    figure_response = generate_figure_code(figure_system_prompt, figure_user_prompt)
     scenario["networkFigure"] = figure_response
     return scenario

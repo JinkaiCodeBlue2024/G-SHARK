@@ -89,6 +89,7 @@ def generate_figure_code(figure_system_prompt: str, figure_user_prompt: str) -> 
         )
 
         figure_response = chat_with_gpt(figure_system_prompt, figure_user_prompt)
+        print(f"figure_response regenerate {i} = {figure_response}")
         plantuml_response = get_svg(figure_response)
 
     return figure_response
