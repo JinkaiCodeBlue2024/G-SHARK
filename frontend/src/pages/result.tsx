@@ -1,4 +1,5 @@
-import { useAtom } from "jotai";
+import { isAxiosError } from "axios";
+import { useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -21,17 +22,16 @@ function Result() {
     }
     return encodePlantUML64(generateResponse?.networkFigure);
   }, [generateResponse?.networkFigure]);
-  const [loadingState, setLoadingState] = useAtom(loadingStateAtom);
+  const setLoadingState = useSetAtom(loadingStateAtom);
+  const [errorMessage, setErrorMessage] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
     if (!location.state) {
       navigate("/");
       return;
     }
-    if (loadingState.isLoading || generateResponse) {
-      return;
-    }
-    setLoadingState({ isLoading: true, message: "生成中..." });
     const { generateRequest } = location.state as {
       generateRequest: GenerateScenarioRequest | null;
     };
@@ -39,19 +39,48 @@ function Result() {
       navigate("/");
       return;
     }
+    setLoadingState({ isLoading: true, message: "生成中..." });
     (async () => {
-      const resp = await generateScenario(generateRequest);
-      console.log(resp);
-      setLoadingState({ isLoading: false });
-      setGenerateResponse(resp);
+      try {
+        const resp = await generateScenario(generateRequest);
+        console.log(resp);
+        setGenerateResponse(resp);
+      } catch (e) {
+        console.error(e);
+        if (isAxiosError(e)) {
+          setErrorMessage(e.message);
+        }
+      } finally {
+        setLoadingState({ isLoading: false });
+      }
     })();
-  }, [
-    location,
-    navigate,
-    generateResponse,
-    loadingState.isLoading,
-    setLoadingState,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (errorMessage) {
+    return (
+      <div>
+        <div
+          className="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
+          role="alert"
+        >
+          <svg
+            className="flex-shrink-0 inline w-4 h-4 mr-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+          </svg>
+          <span className="sr-only">Info</span>
+          <div>
+            <span className="font-medium">エラー</span> {errorMessage}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!generateResponse) {
     return <div />; // / に遷移しているはず
