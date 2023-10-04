@@ -40,6 +40,7 @@ function Form() {
           組織名
           <input
             className="w-[100%] rounded-lg"
+            type="text"
             required
             {...register("organizationName")}
           />
@@ -51,6 +52,7 @@ function Form() {
           事業内容
           <input
             className="w-[100%] rounded-lg"
+            type="text"
             required
             {...register("businessContent")}
           />
@@ -68,6 +70,17 @@ function Form() {
               <option value={opt} key={opt}>{opt}</option>
             ))}
           </select>
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          オプション(任意)
+          <textarea
+            className="w-[100%] rounded-lg"
+            rows={3}
+            {...register("option")}
+          />
         </label>
       </div>
 
