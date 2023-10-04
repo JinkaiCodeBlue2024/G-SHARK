@@ -18,7 +18,9 @@ jobs:
         with:
           version: 8
           run_install: false
-      - run: pnpm i --frozen-lockfile && pnpm build --mode production
+      - run: pnpm i --frozen-lockfile && pnpm build && echo $VITE_APP_BACKEND_ADDR
+        env:
+          VITE_APP_BACKEND_ADDR: ${{ env.VITE_APP_BACKEND_ADDR }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
