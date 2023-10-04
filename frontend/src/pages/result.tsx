@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  generateScenario,
   GenerateScenarioRequest,
   GenerateScenarioResponse,
-  getSample,
 } from "../apis/generate";
 import { encodePlantUML64 } from "../utils/plantuml-text-encoder";
 
@@ -33,7 +33,7 @@ function Result() {
       return;
     }
     (async () => {
-      const resp = await getSample();
+      const resp = await generateScenario(generateRequest);
       console.log(resp);
       setGenerateResponse(resp);
     })();
