@@ -55,7 +55,8 @@ def check_plantuml_syntax(svg_code: str) -> Tuple[int, str]:
 
     if error_flag:
         status = -1
-        error_message_part = " ".join(text_list[text_list.index("keyword)") + 2:-1])
+        all_text = " ".join(text_list)
+        error_message_part = all_text[all_text.index(error_detection_string):]
         response = error_message_part.replace("\xa0", "\n")
     else:
         status = 0
