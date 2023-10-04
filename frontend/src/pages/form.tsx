@@ -35,113 +35,95 @@ function Form() {
       })}
       className="flex flex-col items-center"
     >
-      <table className="w-[100%] border-spacing-2">
-        <tbody>
-          <InputRow
-            labelName="組織名"
-            element={
-              <input
-                className="w-[100%] rounded-lg"
-                {...register("organizationName")}
-              />
-            }
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          組織名
+          <input
+            className="w-[100%] rounded-lg"
+            {...register("organizationName")}
           />
-          <InputRow
-            labelName="事業内容"
-            element={
-              <input
-                className="w-[100%] rounded-lg"
-                {...register("businessContent")}
-              />
-            }
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          事業内容
+          <input
+            className="w-[100%] rounded-lg"
+            {...register("businessContent")}
           />
-          <InputRow
-            labelName="起点"
-            element={
-              <select
-                className="rounded-lg w-[100%]"
-                {...register("attackOrigin")}
-              >
-                {attackOriginOptions.map((opt) => (
-                  <option value={opt} key={opt}>{opt}</option>
-                ))}
-              </select>
-            }
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          起点
+          <select
+            className="rounded-lg w-[100%]"
+            {...register("attackOrigin")}
+          >
+            {attackOriginOptions.map((opt) => (
+              <option value={opt} key={opt}>{opt}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2 flex">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          <input
+            type="checkbox"
+            className="rounded-sm mr-2"
+            {...register("groupCompanyExists")}
           />
-          <InputRow
-            labelName="グループ企業の有無"
-            element={
-              <input
-                type="checkbox"
-                className="rounded-sm"
-                {...register("groupCompanyExists")}
-              />
-            }
+          グループ企業の有無
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2 flex">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          <input
+            type="checkbox"
+            className="rounded-sm mr-2"
+            {...register("informationAssets")}
           />
-          <InputRow
-            labelName="顧客情報の有無"
-            element={
-              <input
-                type="checkbox"
-                className="rounded-sm"
-                {...register("informationAssets")}
-              />
-            }
+          顧客情報の有無
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2 flex">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          <input
+            type="checkbox"
+            className="rounded-sm mr-2"
+            {...register("socExists")}
           />
-          <InputRow
-            labelName="SOC の有無 / 検知を自社で行う"
-            element={
-              <input
-                type="checkbox"
-                className="rounded-sm"
-                {...register("socExists")}
-              />
-            }
+          SOC の有無 / 検知を自社で行う
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2 flex items-center">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          <input
+            type="checkbox"
+            className="rounded-sm mr-2"
+            {...register("csirtExists")}
           />
-          <InputRow
-            labelName="CSIRT の有無 / 対象を自社で行う"
-            element={
-              <input
-                type="checkbox"
-                className="rounded-sm"
-                {...register("csirtExists")}
-              />
-            }
-          />
-        </tbody>
-      </table>
+          CSIRT の有無 / 対象を自社で行う
+        </label>
+      </div>
 
       {/* TODO: この className どうにかしたい */}
       <button
         type="submit"
-        className={`text-white bg-gray-700 hover:bg-gray-800 
-          focus:ring-4 focus:ring-gray-300 font-medium
+        className={`text-white bg-blue-500 hover:bg-blue-600 
+          focus:ring-4 focus:ring-blue-300 font-medium
           rounded-lg text-sm px-5 py-2.5 mr-2 mb-2
-          dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none
-          dark:focus:ring-gray-800
-          mt-5 w-32`}
+          focus:outline-none mt-5 w-32`}
       >
         Generate
       </button>
     </form>
-  );
-}
-
-function InputRow(props: {
-  labelName: string;
-  element: JSX.Element;
-}) {
-  return (
-    <tr>
-      <td className="pt-4 px-2" valign="top">
-        <p className="bg-gray-300 text-center w-56">
-          {props.labelName}
-        </p>
-      </td>
-      <td className="pt-4 text-center w-[100%]" valign="middle">
-        {props.element}
-      </td>
-    </tr>
   );
 }
 

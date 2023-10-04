@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -5,6 +6,7 @@ import {
   GenerateScenarioRequest,
   GenerateScenarioResponse,
 } from "../apis/generate";
+import { loadingStateAtom } from "../atoms/loading";
 import { encodePlantUML64 } from "../utils/plantuml-text-encoder";
 
 function Result() {
@@ -19,12 +21,17 @@ function Result() {
     }
     return encodePlantUML64(generateResponse?.networkFigure);
   }, [generateResponse?.networkFigure]);
+  const [loadingState, setLoadingState] = useAtom(loadingStateAtom);
 
   useEffect(() => {
     if (!location.state) {
       navigate("/");
       return;
     }
+    if (loadingState.isLoading || generateResponse) {
+      return;
+    }
+    setLoadingState({ isLoading: true, message: "生成中..." });
     const { generateRequest } = location.state as {
       generateRequest: GenerateScenarioRequest | null;
     };
@@ -35,9 +42,16 @@ function Result() {
     (async () => {
       const resp = await generateScenario(generateRequest);
       console.log(resp);
+      setLoadingState({ isLoading: false });
       setGenerateResponse(resp);
     })();
-  }, [location, navigate]);
+  }, [
+    location,
+    navigate,
+    generateResponse,
+    loadingState.isLoading,
+    setLoadingState,
+  ]);
 
   if (!generateResponse) {
     return <div />; // / に遷移しているはず
