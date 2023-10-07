@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { validate } from "uuid";
-import { GenerateScenarioResponse } from "../apis/generate";
+import { GenerateResult } from "../types/result";
 
 interface SidebarItemProps {
+  date: string;
+  list: ScenarioRow[];
+}
+
+interface ScenarioRow {
   title: string;
   id: string;
 }
@@ -12,11 +17,11 @@ function Sidebar(props: {
   show: boolean;
   onClose: () => void;
 }) {
-  const [resList, setResList] = useState<SidebarItemProps[]>([]);
+  const [items, setItems] = useState<SidebarItemProps[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const list: SidebarItemProps[] = [];
+    const map = new Map<string, ScenarioRow[]>();
     for (const key in localStorage) {
       if (!validate(key)) {
         continue;
@@ -25,28 +30,42 @@ function Sidebar(props: {
       if (!resJson) {
         continue;
       }
-      let res: GenerateScenarioResponse;
+      let res: GenerateResult;
       try {
         res = JSON.parse(resJson);
       } catch (e) {
         continue;
       }
+      const date = new Date(res.date);
+      const ymd = `${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}`;
+      const list = map.get(ymd) ?? [];
+      map.set(
+        ymd,
+        [...list, {
+          title: res.scenario.title,
+          id: key,
+        }],
+      );
+    }
+    const list: SidebarItemProps[] = [];
+    for (const [key, entry] of map) {
       list.push({
-        title: res.title,
-        id: key,
+        date: key,
+        list: entry,
       });
     }
-    console.log(list);
-    setResList([...list]);
+    setItems([...list]);
   }, []);
 
   if (!props.show) {
     return <div />;
   }
   return (
-    <div className="h-[100%] bg-blue-500 absolute w-[15%] flex flex-col items-start min-w-[200px]">
+    <div className="h-[100%] bg-blue-500 absolute w-[15%] flex flex-col items-start min-w-[300px]">
       <button
-        className="my-2 mx-4 py-2 px-2 text-white border text-sm flex  rounded-lg"
+        className="my-4 mx-4 py-2 px-2 text-white border text-sm flex  rounded-lg"
         onClick={() => {
           props.onClose();
           navigate("/");
@@ -70,17 +89,25 @@ function Sidebar(props: {
         <p className="my-auto mx-2">Generate</p>
       </button>
 
-      {resList.map((item) => {
-        console.log(item);
+      {items.map((item) => {
         return (
-          <Link
-            key={item.id}
-            to={`/r/${item.id}`}
-            className="text-white text-sm my-2 mx-4"
-            onClick={() => props.onClose()}
-          >
-            {item.title}
-          </Link>
+          <div className="w-full">
+            <p className="text-sm text-gray-200 ml-6 mb-2">
+              {item.date}
+            </p>
+            {item.list.map((prop) => (
+              <div className="ml-8 mt-2">
+                <Link
+                  key={prop.id}
+                  to={`/r/${prop.id}`}
+                  className="text-white text-lg"
+                  onClick={() => props.onClose()}
+                >
+                  {prop.title}
+                </Link>
+              </div>
+            ))}
+          </div>
         );
       })}
     </div>

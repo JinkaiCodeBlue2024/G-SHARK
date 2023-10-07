@@ -9,6 +9,7 @@ import {
   GenerateScenarioRequest,
 } from "../apis/generate";
 import { loadingStateAtom } from "../atoms/atoms";
+import { GenerateResult } from "../types/result";
 
 // https://www.ipa.go.jp/security/10threats/10threats2023.html
 const attackOriginOptions = [
@@ -48,9 +49,12 @@ function Form() {
         setLoadingState({ isLoading: true, message: "生成中..." });
         try {
           const resp = await generateScenario(data);
-          console.log(resp);
           const id = uuidv4();
-          localStorage.setItem(id, JSON.stringify(resp));
+          const result: GenerateResult = {
+            date: new Date().toJSON(),
+            scenario: resp,
+          };
+          localStorage.setItem(id, JSON.stringify(result));
           setGeneratedID(id);
         } catch (e) {
           console.error(e);

@@ -1,23 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { GenerateScenarioResponse } from "../apis/generate";
+import { GenerateResult } from "../types/result";
 import { encodePlantUML64 } from "../utils/plantuml-text-encoder";
 
 function Result() {
   const { id } = useParams<{ id?: string }>();
-  const [generateResponse, setGenerateResponse] = useState<
-    GenerateScenarioResponse | undefined
+  const [generateResult, setGenerateResult] = useState<
+    GenerateResult | undefined
   >();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<
     string | undefined
   >();
   const plantUML64 = useMemo(() => {
-    if (!generateResponse?.networkFigure) {
+    if (!generateResult?.scenario.networkFigure) {
       return;
     }
-    return encodePlantUML64(generateResponse?.networkFigure);
-  }, [generateResponse?.networkFigure]);
+    return encodePlantUML64(generateResult?.scenario.networkFigure);
+  }, [generateResult?.scenario.networkFigure]);
 
   useEffect(() => {
     if (!id) {
@@ -29,7 +29,7 @@ function Result() {
       if (!generateResult) {
         return;
       }
-      setGenerateResponse(JSON.parse(generateResult));
+      setGenerateResult(JSON.parse(generateResult));
     } catch (e) {
       console.error(e);
       setErrorMessage(e as string);
@@ -37,7 +37,7 @@ function Result() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  if (!generateResponse) {
+  if (!generateResult) {
     return <div />; // / に遷移しているはず
   }
 
@@ -67,11 +67,11 @@ function Result() {
         </div>
       )}
 
-      <h1 className="h3">{generateResponse.title}</h1>
+      <h1 className="h3">{generateResult.scenario.title}</h1>
 
       <div className="pt-4">
         <h2>背景</h2>
-        <p className="mt-4">{generateResponse.background}</p>
+        <p className="mt-4">{generateResult.scenario.background}</p>
       </div>
 
       <div className="pt-4">
@@ -85,7 +85,7 @@ function Result() {
       <div className="pt-4 w-[100%]">
         <h2 className="my-2">シチュエーション</h2>
         <ol className="relative border-l ml-4 -z-10">
-          {generateResponse.situation.map((situation, i) => {
+          {generateResult.scenario.situation.map((situation, i) => {
             return (
               <li key={i} className="ml-4 mb-10">
                 <div className="absolute w-3 h-3 bg-blue-200 rounded-full mt-2 -left-1.5 border border-white" />
