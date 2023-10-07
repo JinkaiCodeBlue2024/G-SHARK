@@ -112,7 +112,7 @@ function Result() {
                       />
                     </svg>
 
-                    <p className="font-bold ml-1">課題</p>
+                    <p className="font-bold ml-1">ポイント</p>
                   </div>
 
                   <p className="">{situation.issue}</p>
