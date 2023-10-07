@@ -5,10 +5,10 @@ import { encodePlantUML64 } from "../utils/plantuml-text-encoder";
 
 function Result() {
   const { id } = useParams<{ id?: string }>();
-  const navigate = useNavigate();
   const [generateResponse, setGenerateResponse] = useState<
     GenerateScenarioResponse | undefined
   >();
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<
     string | undefined
   >();
@@ -24,18 +24,15 @@ function Result() {
       navigate("/");
       return;
     }
-    const res = localStorage.getItem(id);
-    if (!res) {
-      navigate("/");
-      return;
-    }
     try {
-      const resp = JSON.parse(res) as GenerateScenarioResponse;
-      setGenerateResponse(resp);
+      const generateResult = localStorage.getItem(id);
+      if (!generateResult) {
+        return;
+      }
+      setGenerateResponse(JSON.parse(generateResult));
     } catch (e) {
       console.error(e);
-      setErrorMessage("不正なIDです");
-      return;
+      setErrorMessage(e as string);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);

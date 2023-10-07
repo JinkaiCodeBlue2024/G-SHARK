@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import { useSetAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -32,6 +32,14 @@ function Form() {
   const [errorMessage, setErrorMessage] = useState<
     string | undefined
   >();
+  const [generatedID, setGeneratedID] = useState<
+    string | undefined
+  >();
+  useEffect(() => {
+    if (generatedID) {
+      navigate(`/r/${generatedID}`);
+    }
+  }, [generatedID]);
 
   return (
     <form
@@ -43,7 +51,7 @@ function Form() {
           console.log(resp);
           const id = uuidv4();
           localStorage.setItem(id, JSON.stringify(resp));
-          navigate(`/r/${id}`);
+          setGeneratedID(id);
         } catch (e) {
           console.error(e);
           if (isAxiosError(e)) {
