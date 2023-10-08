@@ -24,7 +24,7 @@ $ export OPENAI_API_KEY=YOUR_API_KEY
 $ docker run --env OPENAI_API_KEY=YOUR_API_KEY
 ```
 
-## ビルド
+### GitHubからクローン
 
 GitHubからクローンし、ディレクトリの中に移動します。
 ```sh
@@ -38,7 +38,7 @@ $ cd G-SHARK/
 
 ### バックエンドのビルド&実行
 
-1. ローカルで実行する場合
+1. ローカルでインストールして実行する場合
 ```sh
 $ cd backend/
 $ pip install -r requirements.txt
