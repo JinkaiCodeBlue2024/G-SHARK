@@ -3,6 +3,8 @@
 
 [G-SHARK](https://jinkai-libra-2023.web.app/)は、入力された情報からチャットAIを用いてサイバー攻撃演習における訓練シナリオを自動作成するツールです。  
 
+## スクリーンショット
+
 ![screenshot1](https://github.com/JinkaiLibra2023/G-SHARK/blob/main/screenshot/screenshot1.png?raw=true)
 ![screenshot2](https://github.com/JinkaiLibra2023/G-SHARK/blob/main/screenshot/screenshot2.png?raw=true)
 ![screenshot3](https://github.com/JinkaiLibra2023/G-SHARK/blob/main/screenshot/screenshot3.png?raw=true)
@@ -40,7 +42,7 @@ $ uvicorn main:app --port 5173
 ```
 
 2. Dockerを用いる場合
-```
+```sh
 $ cd backend/
 $ docker image build -t g-shark:v1 .
 $ docker run -d --name g-shark-api-server g-shark:v1
