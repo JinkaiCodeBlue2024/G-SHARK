@@ -31,6 +31,10 @@ GitHubからクローンし、ディレクトリの中に移動します。
 $ git clone git@github.com:JinkaiLibra2023/G-SHARK.git
 $ cd G-SHARK/
 ```
+### 環境
+
+- Python 3.11
+- npm 9.8.1
 
 ### バックエンドのビルド&実行
 
@@ -38,14 +42,14 @@ $ cd G-SHARK/
 ```sh
 $ cd backend/
 $ pip install -r requirements.txt
-$ uvicorn main:app --port 5173
+$ uvicorn main:app --port 3000
 ```
 
 2. Dockerを用いる場合
 ```sh
 $ cd backend/
 $ docker image build -t g-shark:v1 .
-$ docker run -d --name g-shark-api-server g-shark:v1
+$ docker run -d -p 3000:8080 --name g-shark-api-server g-shark:v1
 ```
 
 ### フロントエンドのビルド&実行
@@ -54,6 +58,6 @@ $ docker run -d --name g-shark-api-server g-shark:v1
 $ cd frontend/
 $ npm install
 $ npm run build
-$ npm run dev
+$ VITE_APP_BACKEND_ADDR=http://localhost:3000 npm run dev
 ```
 
