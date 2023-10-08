@@ -1,6 +1,6 @@
 # G-SHARK
 
-G-SHARKは、入力された情報からチャットAIを用いてサイバー攻撃演習における訓練シナリオを自動作成するツールです。  
+G-SHARKは、入力された企業情報やインシデントの起点からチャットAIを用いてサイバー攻撃演習における訓練シナリオを自動作成するツールです。  
 
 ## スクリーンショット
 
@@ -60,4 +60,3 @@ $ npm install
 $ npm run build
 $ VITE_APP_BACKEND_ADDR=http://localhost:3000 npm run dev
 ```
-
