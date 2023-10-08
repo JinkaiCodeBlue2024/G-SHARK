@@ -10,6 +10,19 @@ G-SHARKは、入力された情報からチャットAIを用いてサイバー�
 
 ## ローカルでビルドする方法
 
+### GitHubからクローン
+
+GitHubからクローンし、ディレクトリの中に移動します。
+```sh
+$ git clone git@github.com:JinkaiLibra2023/G-SHARK.git
+$ cd G-SHARK/
+```
+
+### 環境
+
+- Python 3.11
+- npm 9.8.1
+
 ### 事前準備
 
 シナリオの生成でOpenAIのGPT-4 APIを使用しているため、API Keyを設定する必要があります。OpenAIのサイトでAPI Keyを取得し、環境変数として設定します。API Keyの取得方法の詳細については、「[Where do I find my Secret API Key?](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key)」を確認してください。  
@@ -18,22 +31,10 @@ G-SHARKは、入力された情報からチャットAIを用いてサイバー�
 ```sh
 $ export OPENAI_API_KEY=YOUR_API_KEY
 ```
-2. Dockerでコンテナに環境変数として渡す方法
+2. Dockerでコンテナに環境変数として渡す方法(詳細のコマンド形式は後述)
 ```sh
 $ docker run --env OPENAI_API_KEY=YOUR_API_KEY
 ```
-
-### GitHubからクローン
-
-GitHubからクローンし、ディレクトリの中に移動します。
-```sh
-$ git clone git@github.com:JinkaiLibra2023/G-SHARK.git
-$ cd G-SHARK/
-```
-### 環境
-
-- Python 3.11
-- npm 9.8.1
 
 ### バックエンドのビルド&実行
 
@@ -48,7 +49,7 @@ $ uvicorn main:app --port 3000
 ```sh
 $ cd backend/
 $ docker image build -t g-shark:v1 .
-$ docker run -d -p 3000:8080 --name g-shark-api-server g-shark:v1
+$ docker run -d -p 3000:8080 --name g-shark-api-server g-shark:v1 --env OPENAI_API_KEY=YOUR_API_KEY
 ```
 
 ### フロントエンドのビルド&実行
