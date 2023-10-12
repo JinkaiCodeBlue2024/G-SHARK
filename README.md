@@ -1,6 +1,7 @@
 # G-SHARK
 
 G-SHARKは、入力された企業情報やインシデントの起点からチャットAIを用いてサイバー攻撃演習における訓練シナリオを自動作成するツールです。  
+![icon](https://github.com/JinkaiLibra2023/G-SHARK/blob/main/icon.png?raw=true)
 
 ## スクリーンショット
 
