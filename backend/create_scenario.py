@@ -5,8 +5,9 @@ import openai
 
 from regenerate_network_figure import generate_figure_code
 
-
+print("hoge")
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 scenario_system_prompt = (
     "You are a professional in creating cyber-attack exercise scenarios."
@@ -70,7 +71,7 @@ def create_prompt(input: str):
 
 def chat_with_gpt(system_prompt: str, prompt: str) -> str:
     response = openai.ChatCompletion.create(
-        model="gpt-4-0613",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt},
@@ -88,7 +89,11 @@ def chat_with_gpt(system_prompt: str, prompt: str) -> str:
 def create_scenario(input: str):
     scenario_user_prompt = create_prompt(input)
     scenario_response = chat_with_gpt(scenario_system_prompt, scenario_user_prompt)
+    scenario_response = scenario_response[scenario_response.find("{"):scenario_response.rfind("}")+1]
     print(f"{scenario_response = }")
+    # print(scenario_response)
+    
+    # print(scenario_response)
     scenario = json.loads(scenario_response)
 
     figure_user_prompt = figure_base_prompt + "\n" + scenario_response
