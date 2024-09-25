@@ -29,6 +29,7 @@ function Result() {
       if (!generateResult) {
         return;
       }
+      console.log(JSON.parse(generateResult))
       setGenerateResult(JSON.parse(generateResult));
     } catch (e) {
       console.error(e);
@@ -121,6 +122,10 @@ function Result() {
             );
           })}
         </ol>
+      </div>
+      <div className="pt-4">
+        <h2>模範解答</h2>
+        <p className="mt-4">{generateResult.scenario.modelAnswer}</p>
       </div>
     </div>
   );

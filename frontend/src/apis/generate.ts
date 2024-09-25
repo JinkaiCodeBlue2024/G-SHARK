@@ -9,6 +9,7 @@ export interface GenerateScenarioRequest {
   csirtExists: boolean;
   attackOrigin: string;
   option: string;
+  cyberAttackDifficultyLevel: string;
 }
 
 export interface GenerateScenarioResponse {
@@ -16,6 +17,7 @@ export interface GenerateScenarioResponse {
   background: string;
   networkFigure: string; // this format is PlantUML
   situation: Situation[];
+  modelAnswer: string;
 }
 
 export interface Situation {

@@ -22,6 +22,7 @@ const attackOriginOptions = [
   "ビジネスメール詐欺による金銭被害",
   "脆弱性対策の公開に伴う悪用増加",
   "不注意による情報漏えい等の被害",
+  "ランダム",
 ];
 
 function Form() {
@@ -136,6 +137,18 @@ function Form() {
             className="w-[100%] rounded-lg"
             rows={3}
             {...register("option")}
+          />
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          インシデントレベル
+          <input
+            className="w-[100%] rounded-lg"
+            type="text"
+            required
+            {...register("cyberAttackDifficultyLevel")}
           />
         </label>
       </div>
