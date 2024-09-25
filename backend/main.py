@@ -4,8 +4,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import create_scenario
+import json
 
-
+print("hoge")
 app = FastAPI()
 
 app.add_middleware(
@@ -14,6 +15,9 @@ app.add_middleware(
         "http://localhost:5173",  # local
         "https://jinkai-libra-2023.web.app", # production
     ],
+    # allow_origins = [
+    #     "*"
+    # ],
     allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"],
@@ -28,6 +32,7 @@ class GenerateScenarioRequest(BaseModel):
     csirtExists: bool
     attackOrigin: str
     option: Optional[str] = None
+    cyberAttackDifficultyLevel: str
 
 
 class Situation(BaseModel):
@@ -42,6 +47,7 @@ class GenerateScenarioResponse(BaseModel):
     background: str
     networkFigure: str
     situation: List[Situation]
+    modelAnswer: str
 
 
 @app.get("/")

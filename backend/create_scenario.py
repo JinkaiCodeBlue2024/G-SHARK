@@ -22,9 +22,10 @@ scenario_system_prompt = (
     '"situationNo": "integer",'
     '"date": "string",'
     '"content": "string",'
-    '"issue": "string"'
+    '"issue": "string",'
     "}"
     "]"
+    '"modelAnswer": "string"'
     "}"
 )
 
@@ -44,6 +45,9 @@ scenario_base_prompt = (
     "Also consider the impact on the surrounding environment, excluding the attacked organization."
     "Please describe the issues to be discussed in the issue."
     "Please create at least four situations."
+    "Please describe exemplary answers for all scenarios"
+    "Scenario levels range from 1 to 10, with the higher the number, the more difficult the threats anticipated in the scenario."
+    "Please output the first scenario level entered in background."
 )
 
 figure_system_prompt = (
@@ -87,16 +91,17 @@ def chat_with_gpt(system_prompt: str, prompt: str) -> str:
 
 
 def create_scenario(input: str):
+    # print(input)
     scenario_user_prompt = create_prompt(input)
     scenario_response = chat_with_gpt(scenario_system_prompt, scenario_user_prompt)
     scenario_response = scenario_response[scenario_response.find("{"):scenario_response.rfind("}")+1]
     print(f"{scenario_response = }")
-    # print(scenario_response)
-    
-    # print(scenario_response)
     scenario = json.loads(scenario_response)
-
+    
+    # print(scenario)
+    # return []
     figure_user_prompt = figure_base_prompt + "\n" + scenario_response
     figure_response = generate_figure_code(figure_system_prompt, figure_user_prompt)
     scenario["networkFigure"] = figure_response
+    print(scenario)
     return scenario
