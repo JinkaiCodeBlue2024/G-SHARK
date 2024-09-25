@@ -6,7 +6,6 @@ from pydantic import BaseModel
 import create_scenario
 import json
 
-print("hoge")
 app = FastAPI()
 
 app.add_middleware(
@@ -33,6 +32,7 @@ class GenerateScenarioRequest(BaseModel):
     attackOrigin: str
     option: Optional[str] = None
     cyberAttackDifficultyLevel: str
+    incidentInvestigationExists: bool
 
 
 class Situation(BaseModel):
@@ -41,13 +41,19 @@ class Situation(BaseModel):
     content: str
     issue: str
 
+class ModelAnswer(BaseModel):
+    situationNo: int
+    date: str
+    content: str
+    answer: str
+
 
 class GenerateScenarioResponse(BaseModel):
     title: str
     background: str
     networkFigure: str
     situation: List[Situation]
-    modelAnswer: str
+    modelAnswer: List[ModelAnswer]
 
 
 @app.get("/")

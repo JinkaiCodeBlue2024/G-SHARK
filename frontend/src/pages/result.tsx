@@ -123,9 +123,45 @@ function Result() {
           })}
         </ol>
       </div>
-      <div className="pt-4">
-        <h2>模範解答</h2>
-        <p className="mt-4">{generateResult.scenario.modelAnswer}</p>
+      <div className="pt-4 w-[100%]">
+        <h2 className="my-2">模範解答</h2>
+        <ol className="relative border-l ml-4 -z-10">
+          {generateResult.scenario.modelAnswer.map((situation, i) => {
+            return (
+              <li key={i} className="ml-4 mb-10">
+                <div className="absolute w-3 h-3 bg-blue-200 rounded-full mt-2 -left-1.5 border border-white" />
+
+                <div>
+                  <h3 className="">{situation.date}</h3>
+                  <p className="p-1">{situation.content}</p>
+                </div>
+
+                <div className="bg-blue-50 border-l-4 border-blue-400 text-blue-600 p-4">
+                  <div className="flex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+
+                    <p className="font-bold ml-1">回答</p>
+                  </div>
+
+                  <p className="">{situation.answer}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
       </div>
     </div>
   );

@@ -25,7 +25,14 @@ scenario_system_prompt = (
     '"issue": "string",'
     "}"
     "]"
-    '"modelAnswer": "string"'
+    '"modelAnswer": ['
+    "{"
+    '"situationNo": "integer",'
+    '"date": "string",'
+    '"content": "string",'
+    '"answer": "string",'
+    "}"
+    "]"
     "}"
 )
 

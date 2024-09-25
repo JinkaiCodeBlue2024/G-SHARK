@@ -49,6 +49,9 @@ function Form() {
         console.log(data);
         setLoadingState({ isLoading: true, message: "生成中..." });
         try {
+          if (data.attackOrigin == "ランダム"){
+            data.attackOrigin = attackOriginOptions.slice(0,attackOriginOptions.length-1)[Math.floor(Math.random() * attackOriginOptions.length-1)]
+          }
           const resp = await generateScenario(data);
           const id = uuidv4();
           const result: GenerateResult = {
@@ -194,6 +197,17 @@ function Form() {
             {...register("csirtExists")}
           />
           CSIRT の有無 / 対象を自社で行う
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2 flex items-center">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          <input
+            type="checkbox"
+            className="rounded-sm mr-2"
+            {...register("incidentInvestigationExists")}
+          />
+          インシデント調査 の有無 / 調査を自社で行う
         </label>
       </div>
 

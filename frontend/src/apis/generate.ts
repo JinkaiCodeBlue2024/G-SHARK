@@ -1,3 +1,4 @@
+import { Mode } from "react-hook-form";
 import { http } from "./common";
 
 export interface GenerateScenarioRequest {
@@ -10,6 +11,7 @@ export interface GenerateScenarioRequest {
   attackOrigin: string;
   option: string;
   cyberAttackDifficultyLevel: string;
+  incidentInvestigationExists: boolean;
 }
 
 export interface GenerateScenarioResponse {
@@ -17,7 +19,7 @@ export interface GenerateScenarioResponse {
   background: string;
   networkFigure: string; // this format is PlantUML
   situation: Situation[];
-  modelAnswer: string;
+  modelAnswer: ModelAnswer[];
 }
 
 export interface Situation {
@@ -25,6 +27,13 @@ export interface Situation {
   date: string;
   content: string;
   issue: string;
+}
+
+export interface ModelAnswer {
+  situationNo: number;
+  date: string;
+  content: string;
+  answer: string;
 }
 
 export async function generateScenario(
