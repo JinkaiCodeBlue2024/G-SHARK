@@ -33,6 +33,7 @@ class GenerateScenarioRequest(BaseModel):
     option: Optional[str] = None
     cyberAttackDifficultyLevel: str
     incidentInvestigationExists: bool
+    corporateScale:str
 
 
 class Situation(BaseModel):

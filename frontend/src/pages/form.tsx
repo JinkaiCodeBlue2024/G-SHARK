@@ -25,6 +25,12 @@ const attackOriginOptions = [
   "ランダム",
 ];
 
+const corporateScale = [
+  "大",
+  "中",
+  "小"
+]
+
 function Form() {
   const { register, handleSubmit } = useForm<
     GenerateScenarioRequest
@@ -208,6 +214,20 @@ function Form() {
             {...register("incidentInvestigationExists")}
           />
           インシデント調査 の有無 / 調査を自社で行う
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          企業規模
+          <select
+            className="rounded-lg w-[100%]"
+            {...register("corporateScale")}
+          >
+            {corporateScale.map((opt) => (
+              <option value={opt} key={opt}>{opt}</option>
+            ))}
+          </select>
         </label>
       </div>
 

@@ -12,6 +12,7 @@ export interface GenerateScenarioRequest {
   option: string;
   cyberAttackDifficultyLevel: string;
   incidentInvestigationExists: boolean;
+  corporateScale: string;
 }
 
 export interface GenerateScenarioResponse {

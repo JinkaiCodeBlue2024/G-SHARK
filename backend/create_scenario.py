@@ -54,7 +54,8 @@ scenario_base_prompt = (
     "Please create at least four situations."
     "Please describe exemplary answers for all scenarios"
     "Scenario levels range from 1 to 10, with the higher the number, the more difficult the threats anticipated in the scenario."
-    "Please output the first scenario level entered in background."
+    "The scale of the corporate is entered as “large”, “medium”, or “small”, so please also consider the scale of the corporate."
+    "Please output the entered scenario level and corporate scale in the background"
 )
 
 figure_system_prompt = (
