@@ -5,7 +5,7 @@ import {
   sidebarOpenAtom,
 } from "../atoms/atoms";
 
-const title = "G-SHARK";
+const title = "G-SHARK plus";
 
 function Navbar() {
   const [showDarkerOverlay, setShowDarkerOverlay] = useAtom(
