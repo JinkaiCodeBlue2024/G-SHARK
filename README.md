@@ -2,14 +2,14 @@
 
 G-SHARKは、入力された企業情報やインシデントの起点からチャットAIを用いてサイバー攻撃演習における訓練シナリオを自動作成するツールです。  
 <p align="center">
-    <img src="https://github.com/JinkaiLibra2023/G-SHARK/blob/main/icon.png?raw=true" alt="icon" />
+    <img src="https://github.com/JinkaiCodeBlue2024/G-SHARK/blob/main/icon.png?raw=true" alt="icon" />
 </p>
 
 ## スクリーンショット
 
-![screenshot1](https://github.com/JinkaiLibra2023/G-SHARK/blob/main/screenshot/screenshot1.png?raw=true)
-![screenshot2](https://github.com/JinkaiLibra2023/G-SHARK/blob/main/screenshot/screenshot2.png?raw=true)
-![screenshot3](https://github.com/JinkaiLibra2023/G-SHARK/blob/main/screenshot/screenshot3.png?raw=true)
+![screenshot1](https://github.com/JinkaiCodeBlue2024/G-SHARK/blob/main/screenshot/screenshot1.png?raw=true)
+![screenshot2](https://github.com/JinkaiCodeBlue2024/G-SHARK/blob/main/screenshot/screenshot2.png?raw=true)
+![screenshot3](https://github.com/JinkaiCodeBlue2024/G-SHARK/blob/main/screenshot/screenshot3.png?raw=true)
 
 ## ローカルでビルドする方法
 
@@ -17,7 +17,7 @@ G-SHARKは、入力された企業情報やインシデントの起点からチ�
 
 GitHubからクローンし、ディレクトリの中に移動します。
 ```sh
-$ git clone git@github.com:JinkaiLibra2023/G-SHARK.git
+$ git clone git@github.com:JinkaiCodeBlue2024/G-SHARK.git
 $ cd G-SHARK/
 ```
 
