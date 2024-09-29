@@ -5,8 +5,9 @@ import openai
 
 from regenerate_network_figure import generate_figure_code
 
-
+print("hoge")
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 scenario_system_prompt = (
     "You are a professional in creating cyber-attack exercise scenarios."
@@ -21,7 +22,15 @@ scenario_system_prompt = (
     '"situationNo": "integer",'
     '"date": "string",'
     '"content": "string",'
-    '"issue": "string"'
+    '"issue": "string",'
+    "}"
+    "]"
+    '"modelAnswer": ['
+    "{"
+    '"situationNo": "integer",'
+    '"date": "string",'
+    '"content": "string",'
+    '"answer": "string",'
     "}"
     "]"
     "}"
@@ -43,6 +52,10 @@ scenario_base_prompt = (
     "Also consider the impact on the surrounding environment, excluding the attacked organization."
     "Please describe the issues to be discussed in the issue."
     "Please create at least four situations."
+    "Please describe exemplary answers for all scenarios"
+    "Scenario levels range from 1 to 10, with the higher the number, the more difficult the threats anticipated in the scenario."
+    "The scale of the corporate is entered as “large”, “medium”, or “small”, so please also consider the scale of the corporate."
+    "Please output the entered scenario level and corporate scale in the background"
 )
 
 figure_system_prompt = (
@@ -70,7 +83,7 @@ def create_prompt(input: str):
 
 def chat_with_gpt(system_prompt: str, prompt: str) -> str:
     response = openai.ChatCompletion.create(
-        model="gpt-4-0613",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt},
@@ -86,12 +99,17 @@ def chat_with_gpt(system_prompt: str, prompt: str) -> str:
 
 
 def create_scenario(input: str):
+    # print(input)
     scenario_user_prompt = create_prompt(input)
     scenario_response = chat_with_gpt(scenario_system_prompt, scenario_user_prompt)
+    scenario_response = scenario_response[scenario_response.find("{"):scenario_response.rfind("}")+1]
     print(f"{scenario_response = }")
     scenario = json.loads(scenario_response)
-
+    
+    # print(scenario)
+    # return []
     figure_user_prompt = figure_base_prompt + "\n" + scenario_response
     figure_response = generate_figure_code(figure_system_prompt, figure_user_prompt)
     scenario["networkFigure"] = figure_response
+    print(scenario)
     return scenario

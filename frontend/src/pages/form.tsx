@@ -22,7 +22,14 @@ const attackOriginOptions = [
   "ビジネスメール詐欺による金銭被害",
   "脆弱性対策の公開に伴う悪用増加",
   "不注意による情報漏えい等の被害",
+  "ランダム",
 ];
+
+const corporateScale = [
+  "大",
+  "中",
+  "小"
+]
 
 function Form() {
   const { register, handleSubmit } = useForm<
@@ -48,6 +55,9 @@ function Form() {
         console.log(data);
         setLoadingState({ isLoading: true, message: "生成中..." });
         try {
+          if (data.attackOrigin == "ランダム"){
+            data.attackOrigin = attackOriginOptions.slice(0,attackOriginOptions.length-1)[Math.floor(Math.random() * attackOriginOptions.length-1)]
+          }
           const resp = await generateScenario(data);
           const id = uuidv4();
           const result: GenerateResult = {
@@ -140,6 +150,18 @@ function Form() {
         </label>
       </div>
 
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          インシデントレベル (1~10)
+          <input
+            className="w-[100%] rounded-lg"
+            type="text"
+            required
+            {...register("cyberAttackDifficultyLevel")}
+          />
+        </label>
+      </div>
+
       <div className="w-4/5 my-2 flex">
         <label className="block mb-2 text-sm font-medium text-gray-900">
           <input
@@ -181,6 +203,31 @@ function Form() {
             {...register("csirtExists")}
           />
           CSIRT の有無 / 対象を自社で行う
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2 flex items-center">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          <input
+            type="checkbox"
+            className="rounded-sm mr-2"
+            {...register("incidentInvestigationExists")}
+          />
+          インシデント調査 の有無 / 調査を自社で行う
+        </label>
+      </div>
+
+      <div className="w-4/5 my-2">
+        <label className="block mb-2 text-sm font-medium text-gray-900">
+          企業規模
+          <select
+            className="rounded-lg w-[100%]"
+            {...register("corporateScale")}
+          >
+            {corporateScale.map((opt) => (
+              <option value={opt} key={opt}>{opt}</option>
+            ))}
+          </select>
         </label>
       </div>
 
